@@ -1,0 +1,205 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+     <title>Sistemas Distribuidos</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">   
+
+	<!-- Fontawesome -->
+ 	
+ 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+ 	
+	<!-- Jquery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"	integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>	
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+	crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</head>
+
+<body>
+	 <section class="header">
+	 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  	<a class="navbar-brand" href="#">Laboratorio 1</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>	
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="index.html">Inicio <i class="fas fa-home"></i> <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="#">Consultas <i class="fas fa-search-plus"></i>
+		        </a>
+		      </li>
+		    </ul>
+		    <form class="form-inline my-2 my-lg-0">
+		      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+		    </form>
+		  </div>
+		</nav>
+	 </section>
+	 <section class="index container-fluid">
+	  <small>Consultas</small>
+	  	<div class="form-group row">
+	     <div class="col-md-8 col-sm-6">
+	     	<label for="exampleSelect1">Tipo de Reporte</label>
+	        <select class="form-control" id="exampleSelect1">
+	         <option value="1"> Personas mayores de 15 años, viviendo con VIH  </option> 
+			 <option value="2" > Edad promedio de hombres, en su primer matrimonio  </option> 
+			 <option value="3" > Edad promedio de mujeres, en su primer matrimonio.</option>
+			 <option value="4" > Prevalencia de diabetes (%poblacion entre 25 y 79 años)</option>
+			 <option value="5" > Camas de hospital (por cada 1000 personas)</option>
+			 <option value="6" > Incidencia de TBC (por cada 1000 personas)</option>
+			 <option value="7" > Expectativa de vida al nacer (en años)</option>
+	       </select>
+	      </div>
+	        <div class="col-md-4 col-sm-6"  style="margin-top:2rem">
+	  	 	<button id="btnReporteDatos" class="btn btn-primary">Reporte de datos <i class="fas fa-tasks"></i></button>		   	 
+	        <!--<button id="btnReporteChart" class="btn btn-success">Reporte Chart <i class="fas fa-chart-bar"></i></button>-->		   	 
+	        </div>	
+	      </div>
+		<small>Rango de fechas</small>
+		<br>	
+		<div class="container-fluid col-sm-12" id="consultaFechas">
+		 <table id="tablaConsulta"  class="table table-hover">
+		  <thead>
+		    <tr>
+		      <th>Pais</th>
+		      <th>Año 2005</th>
+		      <th>Año 2006</th>
+		      <th>Año 2007</th>
+		      <th>Año 2008</th>
+		      <th>Año 2009</th>
+		      <th>Año 2010</th>
+		      <th>Año 2011</th>
+		      <th>Año 2012</th>
+		   	  <th>Año 2013</th>
+		    </tr>
+		  </thead>
+		  <tbody >
+		  </tbody>
+		</table>
+		</div>
+		
+		<div class="col-sm-12 container" id="consultarChart" >
+			<div class="my-char" style=" width: 70%;height: 40%;">
+				<canvas id="myChart" style="width: 100px;height: 100px;"></canvas>		
+			</div>
+		</div>
+	</section>
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+	</script>
+	<script>
+	
+	$(document).ready(function(){   
+	          $('#btnReporteDatos').click(function(){
+	             var iTipoConsulta=$("#exampleSelect1").val();
+	        	 var sss="iTipoConsulta="+iTipoConsulta;
+	         	console.log(sss);
+	        	 $.ajax({
+	            type: "GET",
+	            url: "/Serie/get1",
+	            data: sss,
+	            dataType:"json",
+	            success: function (data) {
+	            },
+	            error: function ( xhr,status){
+	            },
+	            complete: function(data){
+	                console.log(data);
+	                var len= data.responseJSON.length;
+	            	var txt= "";
+	            	var country="";
+	            	var promedioDatos=[];
+	            	if(len > 0){
+	            		for(var i=0; i<len ; i++){
+	            		 switch (data.responseJSON[i].iCountryID) {
+	            		    case 1:
+	            		        country = "Argentina";
+	            		        break;
+	            		    case 2:
+	            		    	country = "Brazil";
+	            		    	break;
+	            		    case 3:
+	            		    	country = "Colombia";
+	            		    	break;
+	            		    case 4:
+	            		    	country = "Chile";
+	            		    	break;
+	            		    case 5:
+	            		    	country = "Bolivia";
+	            		    	break;
+	            		    case 6:
+	            		    	country = "Ecuador";
+	            		    	break;
+	            		    case 7:
+	            		    	country = "Peru";
+	            		    	break;
+	            		    case 8:
+	            		    	country = "Paraguay";
+	            		    	break;
+	            		    case 9:
+	            		    	country = "Uruguay";
+	            		    	break;
+	            		    case 10:
+	            		    	country = "Venezuela";	            		
+	            		 }
+	            			txt +=  "<tbody class='tBody'>" +
+		            				"<tr class='cuerpo'>" +
+		                    		"<td>"+country+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2005+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2006+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2007+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2008+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2009+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2010+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2011+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2012+"</td>" +
+		                    		"<td>"+data.responseJSON[i].i2013+"</td>" +
+		                    		"</tr> </tbody>";
+		            		//Suma de datos
+
+		                    promedioDatos[i]=data.responseJSON[i].i2005+data.responseJSON[i].i2006+data.responseJSON[i].i2007+data.responseJSON[i].i2008+data.responseJSON[i].i2009+data.responseJSON[i].i2010+data.responseJSON[i].i2011+data.responseJSON[i].i2012+data.responseJSON[i].i2013;
+		            		promedioDatos[i]=promedioDatos[i]/9;
+		            		console.log(promedioDatos[i]);
+		         		}
+	            	}
+	            	$("#tablaConsulta tbody").empty();
+	            	$("#tablaConsulta").append(txt);
+	            		var ctx = document.getElementById('myChart').getContext('2d');
+						var chart = new Chart(ctx, {
+						    // The type of chart we want to create
+						   	type: 'bar',
+						    // The data for our dataset
+						    data: {
+						        labels: ["Argentina", "Brazil", "Colombia", "Chile", "Bolivia", "Ecuador", "Peru","Paraguay","Uruguay", "Venezuela"],
+						        datasets: [{
+						            label: "Reporte Chart",
+						            backgroundColor: 'blue',
+						            borderColor: 'blue',
+						            data: [promedioDatos[0], promedioDatos[1], promedioDatos[2], promedioDatos[3],promedioDatos[4], promedioDatos[5], promedioDatos[6],promedioDatos[7],promedioDatos[8],promedioDatos[9]],
+						        }]
+						    },
+
+						    // Configuration options go here
+						    options: {}
+						});
+	            }   
+	        });/*fin del ajax*/
+	 });/*fin del boton*/
+
+	});
+
+    </script>
+</body>
+</html>
